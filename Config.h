@@ -11,6 +11,7 @@ enum {
 };
 static const int STATE_LEDS_OUT[] = { 3, 5, 6 };
 enum { STATE_LEDS_OUT_LEN = sizeof(STATE_LEDS_OUT) / sizeof(STATE_LEDS_OUT[0]) };
-enum { Analyzing, OK, Error } CurrentState = Analyzing;
+enum RobotState { Analyzing, OK, Error };
+static RobotState CurrentState = Analyzing;
 
 #endif

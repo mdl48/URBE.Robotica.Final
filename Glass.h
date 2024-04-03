@@ -5,13 +5,11 @@
 #include <Servo.h>
 #include <Vector.h>
 
-typedef float(*MeasureFunc)(void);
+typedef int(*MeasureFunc)(void);
 typedef float(*TiltFunc)(float);
 
 class Glass {
-    static float closenessThreshold;
-    static TiltFunc calcTilt;
-    static Vector<Glass> glasses;
+public:
     int StartDeg;
     int EndDeg;
     int CenterDeg;
@@ -26,7 +24,11 @@ class Glass {
       assert(endDeg <= 180);
     }
 
-    int DetectGlasses(Servo& base, MeasureFunc measure);
+    static int DetectGlasses(Servo& base, MeasureFunc measure);
 };
+
+static float closenessThreshold;
+static TiltFunc calcTilt;
+static Vector<Glass> glasses;
 
 #endif

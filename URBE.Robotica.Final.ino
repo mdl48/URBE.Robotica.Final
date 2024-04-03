@@ -9,6 +9,10 @@
 Servo Base;
 Servo Head;
 
+int CheckObstacle(void) {
+  return digitalRead(OIRSIGNAL_IN);
+}
+
 void setup() {
   for (int i = 0; i < STATE_LEDS_OUT_LEN; i++)
     pinMode(STATE_LEDS_OUT[i], OUTPUT);
@@ -30,16 +34,14 @@ void setup() {
   for (;;) {
     
     DebugWrite("Scanning for glasses", RobotState::Analyzing);
-    int foundGlasses = Glass::DetectGlasses(Base, &CheckObstacle);
+    int foundGlasses = Glass::DetectGlasses(Base, CheckObstacle);
     if(foundGlasses > 0)
     {
-      Glass* glass;
       DebugWrite("Found glasses to fill", RobotState::OK);
       for(int i = 0; i < foundGlasses; i++){
-        Glass::Get(i, glass);
-        MoveHeadToGlass(glass);
+        MoveHeadToGlass(glasses[i]);
         while (ScanWaterLevel() < 0.9)
-          PourWater();
+          PourWater(1000);
       }
     }
 
