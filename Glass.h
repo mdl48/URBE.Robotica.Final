@@ -1,18 +1,22 @@
 #ifndef GLASS_H
-#define GLASS_h
+#define GLASS_H
 
 #include <assert.h>
 #include <Servo.h>
 #include <Vector.h>
 
-class Glass {
-  private:
-    static Vector<Glass*> GlassArray;
+typedef float(*MeasureFunc)(void);
+typedef float(*TiltFunc)(float);
 
-  public:
-    const int StartDeg;
-    const int EndDeg;
-    const int CenterDeg;
+class Glass {
+    static float closenessThreshold;
+    static TiltFunc calcTilt;
+    static Vector<Glass> glasses;
+    int StartDeg;
+    int EndDeg;
+    int CenterDeg;
+    float Distance;
+    int RequiredTilt;
 
     Glass(int startDeg, int endDeg) 
     : StartDeg(startDeg), EndDeg(endDeg), CenterDeg(startDeg + (endDeg / 2))
@@ -22,9 +26,7 @@ class Glass {
       assert(endDeg <= 180);
     }
 
-    static int DetectGlasses(Servo& base, int (*checkObstacle)());
-
-    static int Get(int i, Glass* glass);
+    int DetectGlasses(Servo& base, MeasureFunc measure);
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include "Glass.h"
+<<<<<<< HEAD
 
 const int SpeedOfSound = 350; // m/s, at 30C
 const int BaseSignalOut = 11;
@@ -21,10 +22,15 @@ const int StateLEDsOut[] = { 3, 5, 6 };
 
 enum RobotState { Analyzing, OK, Error };
 RobotState CurrentState = 0;
+=======
+#include "Config.h"
+#include "Helpers.h"
+>>>>>>> 8e281c0 (Make it compile)
 
 Servo Base;
 Servo Head;
 
+<<<<<<< HEAD
 int CheckObstacle() {
   return digitalRead(OIRSignalIn);
 }
@@ -153,15 +159,21 @@ int main(void)
   for (int i = 0; i < sizeof(StateLEDsOut); i++)
     pinMode(StateLEDsOut[i], OUTPUT);
 
+=======
+void setup() {
+  for (int i = 0; i < STATE_LEDS_OUT_LEN; i++)
+    pinMode(STATE_LEDS_OUT[i], OUTPUT);
+  
+>>>>>>> 8e281c0 (Make it compile)
   FadeLEDsTo(HIGH, 10);
 
   Serial.begin (9600);
-  Base.attach(BaseSignalOut);
-  Head.attach(HeadSignalOut);
-  pinMode(PumpSignalOut, OUTPUT);
-  pinMode(USSignalOut, OUTPUT);
-  pinMode(USEchoIn, INPUT);
-  pinMode(OIRSignalIn, INPUT);
+  Base.attach(BASE_SIGNAL_OUT);
+  Head.attach(HEAD_SIGNAL_OUT);
+  pinMode(PUMP_SIGNAL_OUT, OUTPUT);
+  pinMode(USSIGNAL_OUT, OUTPUT);
+  pinMode(USECHO_IN, INPUT);
+  pinMode(OIRSIGNAL_IN, INPUT);
 
   FadeLEDsTo(LOW, 2);
   FadeLEDsTo(HIGH, 2);
